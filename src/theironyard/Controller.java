@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    ObservableList<String> items = FXCollections.observableArrayList();
+    ObservableList<ToDoItem> items = FXCollections.observableArrayList();
 
     @FXML
     ListView list;
@@ -25,13 +25,22 @@ public class Controller implements Initializable {
     }
 
     public void addItem() {
-        items.add(text.getText());
+        items.add(new ToDoItem(text.getText()));
         text.setText("");
 
     }
 
     public void removeItem() {
-        String item = (String) list.getSelectionModel().getSelectedItem();
+        ToDoItem item = (ToDoItem) list.getSelectionModel().getSelectedItem();
         items.remove(item);
+    }
+    public void toggleItem(){
+        ToDoItem item = (ToDoItem) list.getSelectionModel().getSelectedItem();
+        if(item != null){
+            item.isDone = !item.isDone;
+            list.setItems(null);
+            list.setItems(items);
+        }
+
     }
 }
